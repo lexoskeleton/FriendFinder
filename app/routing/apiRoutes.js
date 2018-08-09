@@ -5,15 +5,34 @@ app.get("/api/friends", function(req, res) {
 });
 
 app.post("/api/friends", function(req, res){
-    var newFriend = req.body;
-    friendData.push(newFriend);
-    console.log(newFriend);
-    console.log(friendData);
-    //we have to figure out how to return the scores as integers rather than strings
-    //why is VOLDEMORT's returning as integers but the others are not???
-    //how do we make this happen????? if not parseInt then what?
-    var integers= parseInt(newFriend.scores);
-    console.log(integers);
+    var newFriend = req.body.scores;
+    var results = [];
+    var match = 0;
+
+
+    for (var i = 0; i < friendData.length; i++) {
+        var difference = 0;
+        
+        for (var j = 0; j < newFriend.length; j++) {
+            console.log(friendData[i].scores[j]);
+            difference += (Math.abs(parseInt(friendData[i].scores[j]) - parseInt(newFriend[j]))
+        );
+    }
+    results.push(difference);
+
+    }
+    console.log(results);
+
+    for (var i = 0; i < results.length; i++){
+        console.log(results[i]);
+
+        if (results[i] <= results[match]) {
+            match = i;
+            console.log(match);
+        }
+    }
+
+    friendData.push(req.body);
 
 });
 }
