@@ -1,7 +1,7 @@
 var friends = [
     {
         "name":"Voldemort",
-        "photo":"https://goo.gl/images/uX3BEm",
+        "photo":"https://burst.shopifycdn.com/photos/oceanside-cliffs-of-ireland_x285.progressive.jpg",
         "scores":[
             5,
             5,

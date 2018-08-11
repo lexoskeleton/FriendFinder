@@ -1,38 +1,44 @@
 var friendData = require("../data/friends");
-module.exports =function (app){
-app.get("/api/friends", function(req, res) {
-    res.json(friendData);
-});
+module.exports = function (app) {
+    app.get("/api/friends", function (req, res) {
+        res.json(friendData);
+    });
 
-app.post("/api/friends", function(req, res){
-    var newFriend = req.body.scores;
-    var results = [];
-    var match = 0;
+    app.post("/api/friends", function (req, res) {
+        var newFriend = req.body;
+        var newFriendScore = newFriend.scores.map(function (i) {
+            return parseInt(i);
+        });
+        //var results = [];
+        //var match = 0;
+        var bestFriend;
+        var bestFriendTotal = 1000;
 
 
-    for (var i = 0; i < friendData.length; i++) {
-        var difference = 0;
-        
-        for (var j = 0; j < newFriend.length; j++) {
-            console.log(friendData[i].scores[j]);
-            difference += (Math.abs(parseInt(friendData[i].scores[j]) - parseInt(newFriend[j]))
-        );
-    }
-    results.push(difference);
 
-    }
-    console.log(results);
+        for (var i = 0; i < friendData.length; i++) {
+            var currentFriendScore = friendData[i].scores;
 
-    for (var i = 0; i < results.length; i++){
-        console.log(results[i]);
+            var difference = 0;
 
-        if (results[i] <= results[match]) {
-            match = i;
-            console.log(match);
+            for (var j = 0; j < currentFriendScore.length; j++) {
+                difference += (Math.abs(newFriendScore[j]) - parseInt(currentFriendScore[j])
+                );
+            }
+            // results.push(difference);
+            if (difference < bestFriendTotal) {
+                bestFriendTotal = difference;
+                bestFriend = friendData[i];
+            }
+
         }
-    }
+        // console.log(results);
 
-    friendData.push(req.body);
+       
 
-});
+
+        friendData.push(newFriend);
+        res.json(bestFriend);
+
+    });
 }
